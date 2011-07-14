@@ -13,13 +13,10 @@ def main():
 
     # Get the actual command to run
     if placeholder in command:
-        command = [arg if arg!=placeholder else filename
-                   for arg in command]
-        
-        command = [(arg, filename)[arg!=placeholder]
+        command = [(arg, filename)[arg==placeholder]
                    for arg in command]
     else:
-        command.append(placeholder)
+        command.append(filename)
 
     print "Running", command
 
@@ -33,9 +30,9 @@ def main():
     # Replace the original file
     if ret == 0:
         backup = filename + ".orig"
-        shutil.movefile(filename, backup)
+        shutil.move(filename, backup)
 
-        shutil.movefile(output_filename, filename)
+        shutil.move(output_filename, filename)
     else:
         print "Subcommand returned", ret
         print "Leaving", filename, "unchanged; the output is stored in", output_filename
