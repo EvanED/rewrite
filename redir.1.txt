@@ -1,0 +1,66 @@
+REDIR(1)
+========
+:doctype: manpage
+
+
+NAME
+----
+REDIR
+
+
+SYNOPSIS
+--------
+*redir* 'FILE' 'COMMAND'...
+
+
+DESCRIPTION
+-----------
+Have you ever wish you could run:
+     *frob foo.txt > foo.txt*
+and have it work? This script removes the need to explicitly manage
+ouputting to a temporary file yourself.
+
+*redir* runs the given 'COMMAND' with the replacement specified below,
+redirecting the output to a temporary file (in */tmp/*). After
+'COMMAND' finishes execution, the temporary file is moved to 'FILE'.
+
+'COMMAND' undergoes "filename replacement" before being executed. Any
+argument which is a single *@* character (named after Make's *$@*) is
+replaced by 'FILE'. If *@* never appears, then 'FILE' is passed as the
+last argument. (In other words, *redir* 'FILE' 'ARG1'...'ARGN' and
+*redir* 'FILE' 'ARG1'...'ARGN' *@* are equivalent.)
+
+Both standard output and standard error are redirected to the
+temporary file. The interleaving between them are whatever Python's
+*subprocess* module guarantees; 
+
+For example, the following commands will sort *foo.txt* using
+different options to *sort(1)*::
+    *redir foo.txt sort*
+    *redir foo.txt sort @*
+    *redir foo.txt sort -n @*
+
+
+BUGS
+----
+The only known bugs are two usability issues. The first is that it is
+not possible to *not* pass 'FILE' as an argument to 'COMMAND' and the
+other is that it is not possible to pass a literal *@* as a single
+argument (i.e. there is no way to escape the *@*).
+
+There are also a couple missing features. (Sometimes the line between
+this and bugs is thin.) For instance, there is currently no mechanism
+for passing 'FILE' to the subprocess as standard input, or no
+mechanism for choosing to redirect only standard output or only
+standard error.
+
+Please report any problems you encounter to *driscoll@cs.wisc.edu* or
+the Github repository *https://www.github.com/EvanED/redir*. (Feature
+requests are welcome too, but may not be acted upon. Feature requests
+with patches are even better. :-))
+
+
+COPYING
+-------
+Copyright \(C) 2011 Evan Driscoll. Free use of this software is
+granted under the terms of the 3-clause BSD license.
