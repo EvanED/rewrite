@@ -63,4 +63,4 @@ with patches are even better. :-))
 COPYING
 -------
 Copyright \(C) 2011 Evan Driscoll. Free use of this software is
-granted under the terms of the 3-clause BSD license.
+granted under the terms of the Apache License 2.0 (see LICENSE.txt).
