@@ -24,7 +24,20 @@ import shutil
 
 placeholder="@"
 
+def usage():
+    print "Usage:", sys.argv[0], "FILE COMMAND ARGS..."
+    print
+    help = ("Runs COMMAND ARGS FILE, then puts the output in FILE. "
+            + "Alternatively, use the @ character as an argument to "
+            + "COMMAND, and FILE will take its place.")
+    import textwrap
+    print textwrap.fill(help)
+
 def main():
+    if len(sys.argv) == 1 or sys.argv[1] == "--help":
+        usage()
+        sys.exit(1)
+
     command = sys.argv[2:]
     filename = sys.argv[1]
 
