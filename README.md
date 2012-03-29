@@ -16,6 +16,9 @@ There isn't any. Just copy `src/rewrite.py` into your path somewhere,
 and rename it to just `rewrite` if you wish. Or leave it where it is
 now and just specify the path.
 
+You can rebuild the manpage with `a2x -f manpage -v rewrite.1.txt`
+if you have Asciidoc.
+
 Usage
 -----
 
