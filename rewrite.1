@@ -1,0 +1,68 @@
+'\" t
+.\"     Title: rewrite
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.76.1 <http://docbook.sf.net/>
+.\"      Date: 03/29/2012
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "REWRITE" "1" "03/29/2012" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+rewrite \- Use the same file for input and output to a command
+.SH "SYNOPSIS"
+.sp
+\fBrewrite\fR \fIFILE\fR \fICOMMAND\fR [\fIARG1\fR\&...\fIARGN\fR]
+.SH "DESCRIPTION"
+.sp
+Have you ever wish you could run "\fBfrob foo\&.txt > foo\&.txt\fR" and have it work? This script removes the need to explicitly manage outputting to a temporary file yourself\&.
+.sp
+\fBrewrite\fR runs the given \fICOMMAND\fR with the replacement specified below, redirecting the output to a temporary file (in \fB/tmp/\fR)\&. After \fICOMMAND\fR finishes execution, the temporary file is moved to \fIFILE\fR\&.
+.sp
+The arguments to \fICOMMAND\fR (\fIARG1\fR through \fIARGN\fR) undergo "filename replacement" before being executed\&. Any argument which is a single \fB@\fR character (named after Make\(cqs \fB$@\fR) is replaced by \fIFILE\fR\&. If \fB@\fR never appears, then \fIFILE\fR is passed as the last argument\&. In other words, the following two forms are equivalent: \fBrewrite\fR \fIFILE\fR \fIARG1\fR\&...\fIARGN\fR \fBrewrite\fR \fIFILE\fR \fIARG1\fR\&...\fIARGN\fR \fB@\fR (\fB@\fR does not have to be the last argument\&.)
+.sp
+Both standard output and standard error are redirected to the temporary file\&. The interleaving between them are whatever Python\(cqs \fBsubprocess\fR module guarantees\&.
+.SH "EXAMPLE"
+.sp
+The following commands will sort \fBfoo\&.txt\fR using different options to \fBsort(1)\fR\&. The first two are equivalent\&.
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\fBrewrite foo\&.txt sort\fR
+\fBrewrite foo\&.txt sort @\fR
+\fBrewrite foo\&.txt sort \-n @\fR
+.fi
+.if n \{\
+.RE
+.\}
+.SH "BUGS"
+.sp
+The only known bugs are two usability issues\&. The first is that it is not possible to \fBnot\fR pass \fIFILE\fR as an argument to \fICOMMAND\fR and the other is that it is not possible to pass a literal \fB@\fR as a single argument (i\&.e\&. there is no way to escape the \fB@\fR)\&.
+.sp
+There are also a couple missing features\&. (Sometimes the line between this and bugs is thin\&.) For instance, there is currently no mechanism for passing \fIFILE\fR to the subprocess as standard input, and no mechanism for choosing to redirect only standard output or only standard error\&.
+.sp
+Please report any problems you encounter to \fBdriscoll@cs\&.wisc\&.edu\fR or the Github repository \fBhttps://www\&.github\&.com/EvanED/rewrite\fR\&. (Feature requests are welcome too, but may not be acted upon\&. Feature requests with patches are even better\&. :\-))
+.SH "COPYING"
+.sp
+Copyright (C) 2011 Evan Driscoll\&. Free use of this software is granted under the terms of the Apache License 2\&.0 (see LICENSE\&.txt)\&.
