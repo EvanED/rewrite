@@ -29,4 +29,4 @@ Running `rewrite file.txt some-command --bar` will, behind the scenes:
 * When `some-command` completes, move the temporary file to `file.txt`
 
 See the included manpage for more information and other ways to run
-it.
+it (you can view it with, e.g., `less`).
