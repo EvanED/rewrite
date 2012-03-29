@@ -1,16 +1,16 @@
-REDIR(1)
+REWRITE(1)
 ========
 :doctype: manpage
 
 
 NAME
 ----
-redir - Use the same file for input and output to a command
+rewrite - Use the same file for input and output to a command
 
 
 SYNOPSIS
 --------
-*redir* 'FILE' 'COMMAND' ['ARG1'...'ARGN']
+*rewrite* 'FILE' 'COMMAND' ['ARG1'...'ARGN']
 
 
 DESCRIPTION
@@ -20,7 +20,7 @@ Have you ever wish you could run
 and have it work? This script removes the need to explicitly manage
 outputting to a temporary file yourself.
 
-*redir* runs the given 'COMMAND' with the replacement specified below,
+*rewrite* runs the given 'COMMAND' with the replacement specified below,
 redirecting the output to a temporary file (in */tmp/*). After
 'COMMAND' finishes execution, the temporary file is moved to 'FILE'.
 
@@ -29,8 +29,8 @@ replacement" before being executed. Any
 argument which is a single *@* character (named after Make\'s *$@*) is
 replaced by 'FILE'. If *@* never appears, then 'FILE' is passed as the
 last argument. In other words, the following two forms are equivalent:
-  *redir* 'FILE' 'ARG1'...'ARGN'
-  *redir* 'FILE' 'ARG1'...'ARGN' *@*
+  *rewrite* 'FILE' 'ARG1'...'ARGN'
+  *rewrite* 'FILE' 'ARG1'...'ARGN' *@*
 (*@* does not have to be the last argument.)
 
 Both standard output and standard error are redirected to the
@@ -44,9 +44,9 @@ EXAMPLE
 The following commands will sort *foo.txt* using different options to
 *sort(1)*. The first two are equivalent.
 [verse]
-    *redir foo.txt sort*
-    *redir foo.txt sort @*
-    *redir foo.txt sort -n @*
+    *rewrite foo.txt sort*
+    *rewrite foo.txt sort @*
+    *rewrite foo.txt sort -n @*
 
 
 BUGS
@@ -63,7 +63,7 @@ mechanism for choosing to redirect only standard output or only
 standard error.
 
 Please report any problems you encounter to *driscoll@cs.wisc.edu* or
-the Github repository *https://www.github.com/EvanED/redir*. (Feature
+the Github repository *https://www.github.com/EvanED/rewrite*. (Feature
 requests are welcome too, but may not be acted upon. Feature requests
 with patches are even better. :-))
 
